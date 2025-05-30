@@ -78,4 +78,4 @@ npm run lint:fix      # Auto-fix ESLint issues
 ```
 
 ---
-**💡 Tip**: Monitor deployments in the GitHub Actions tab and Azure Static Web Apps portal for real-time status updates. 
+**💡 Tip**: Monitor deployments in the GitHub Actions tab and Azure Static Web Apps portal for real-time status updates.  
