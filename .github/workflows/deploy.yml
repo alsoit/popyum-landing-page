@@ -1,109 +1,22 @@
-name: Build and Deploy to Azure Static Web Apps
+name: Deploy to Azure Static Web Apps
 
 on:
   push:
-    branches: [ main, master, feature/inital-commit ]
-  pull_request:
-    types: [opened, synchronize, reopened, closed]
-    branches: [ main, master, feature/inital-commit ]
+    branches: [ main ]
 
 env:
   NODE_VERSION: '20'
   NEXT_TELEMETRY_DISABLED: 1
 
 jobs:
-  # Job 1: Code Quality & Validation
-  validate:
-    name: 🔍 Code Validation
+  # Job 1: Build & Deploy
+  build-and-deploy:
+    name: 🚀 Build and Deploy to Azure
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     
     steps:
       - name: 📥 Checkout code
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: 📦 Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-
-      - name: 🔧 Install dependencies
-        run: npm ci
-
-      - name: 🧹 Run ESLint
-        run: npm run lint
-
-      - name: 🔎 TypeScript Check
-        run: npx tsc --noEmit
-
-      - name: 🎨 Check formatting (optional)
-        run: |
-          if [ -f "package.json" ] && grep -q "prettier" package.json; then
-            npx prettier --check .
-          else
-            echo "Prettier not configured, skipping format check"
-          fi
-        continue-on-error: true
-
-  # Job 2: Build & Test
-  build:
-    name: 🏗️ Build Application
-    runs-on: ubuntu-latest
-    needs: validate
-    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
-    
-    steps:
-      - name: 📥 Checkout code
-        uses: actions/checkout@v4
-
-      - name: 📦 Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-
-      - name: 🔧 Install dependencies
-        run: npm ci
-
-      - name: 🏗️ Build Next.js app
-        run: npm run build
-        env:
-          NODE_ENV: production
-
-      - name: 📊 Check build output
-        run: |
-          echo "Build completed successfully!"
-          ls -la .next/
-          echo "Static export size:"
-          du -sh .next/ || echo "Unable to get size"
-
-      - name: 💾 Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: nextjs-build
-          path: |
-            .next/
-            public/
-            package.json
-            next.config.*
-          retention-days: 1
-
-  # Job 3: Deploy to Azure Static Web Apps
-  deploy:
-    name: 🚀 Deploy to Azure
-    runs-on: ubuntu-latest
-    needs: [validate, build]
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || github.ref == 'refs/heads/feature/inital-commit')
-    
-    steps:
-      - name: 📥 Checkout code
-        uses: actions/checkout@v4
-        with:
-          submodules: true
-          lfs: false
 
       - name: 📦 Setup Node.js
         uses: actions/setup-node@v4
@@ -128,11 +41,11 @@ jobs:
           action: "upload"
           app_location: "/"
           api_location: ""
-          output_location: ""
+          output_location: "out"
           app_build_command: "npm run build"
           skip_app_build: false
 
-  # Job 4: Close PR deployments
+  # Job 2: Close PR deployments (when PRs are merged/closed)
   close_pull_request:
     name: 🧹 Close PR Deployment
     if: github.event_name == 'pull_request' && github.event.action == 'closed'

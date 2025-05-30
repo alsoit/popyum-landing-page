@@ -1,0 +1,114 @@
+name: Code Validation and Testing
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [ main ]
+  push:
+    branches-ignore: [ main ]
+
+env:
+  NODE_VERSION: '20'
+  NEXT_TELEMETRY_DISABLED: 1
+
+jobs:
+  # Job 1: Code Quality & Validation
+  validate:
+    name: 🔍 Code Quality & Validation
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: 🔧 Install dependencies
+        run: npm ci
+
+      - name: 🧹 Run ESLint
+        run: npm run lint
+
+      - name: 🔎 TypeScript Check
+        run: npx tsc --noEmit
+
+      - name: 🎨 Check formatting (optional)
+        run: |
+          if [ -f "package.json" ] && grep -q "prettier" package.json; then
+            npx prettier --check .
+          else
+            echo "Prettier not configured, skipping format check"
+          fi
+        continue-on-error: true
+
+  # Job 2: Build Test
+  build-test:
+    name: 🏗️ Build Test
+    runs-on: ubuntu-latest
+    needs: validate
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: 🔧 Install dependencies
+        run: npm ci
+
+      - name: 🏗️ Test Build
+        run: npm run build
+        env:
+          NODE_ENV: production
+
+      - name: 📊 Check build output
+        run: |
+          echo "Build test completed successfully!"
+          if [ -d "out" ]; then
+            echo "Static export generated successfully"
+            echo "Static export size:"
+            du -sh out/
+            echo "Generated files:"
+            find out -name "*.html" -o -name "*.js" -o -name "*.css" | head -10
+          else
+            echo "No 'out' directory found - checking .next"
+            ls -la .next/ || echo "No build output found"
+          fi
+
+  # Job 3: Security & Dependencies Check
+  security:
+    name: 🔒 Security & Dependency Check
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: 🔧 Install dependencies
+        run: npm ci
+
+      - name: 🛡️ Run npm audit
+        run: |
+          npm audit --audit-level=high
+        continue-on-error: true
+
+      - name: 📋 Check for outdated packages
+        run: |
+          npm outdated || echo "Some packages may be outdated"
+        continue-on-error: true 
