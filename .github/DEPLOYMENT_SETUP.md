@@ -4,12 +4,22 @@ This document provides step-by-step instructions for setting up your Next.js app
 
 ## 🚀 Deployment Pipeline Overview
 
-The GitHub Actions workflow includes:
+The project uses **two separate GitHub Actions workflows**:
 
-1. **🔍 Code Validation** - ESLint, TypeScript checking, and optional formatting checks
-2. **🏗️ Build Application** - Compiles Next.js app and uploads build artifacts
-3. **🚀 Deploy to Azure** - Deploys to Azure Static Web Apps (main/master branch only)
-4. **🧹 Close PR Deployment** - Cleans up preview deployments when PRs are closed
+### 📋 **Validation Pipeline** (`validate.yml`)
+- **Triggers**: Only on Pull Requests to `main` branch
+- **Purpose**: Code quality assurance before merging
+- **Jobs**:
+  - 🔍 **Code Quality & Validation** - ESLint, TypeScript checking, formatting
+  - 🏗️ **Build Test** - Validates the application builds successfully
+  - 🔒 **Security & Dependency Check** - npm audit and outdated package detection
+
+### 🚀 **Deployment Pipeline** (`deploy.yml`)
+- **Triggers**: Only on pushes/merges to `main` branch
+- **Purpose**: Production deployment to Azure Static Web Apps
+- **Jobs**:
+  - 🚀 **Build and Deploy** - Compiles and deploys to Azure
+  - 🧹 **Close PR Deployment** - Cleans up preview deployments when PRs are closed
 
 ## 📋 Prerequisites
 
@@ -38,7 +48,7 @@ Before setting up the deployment, ensure you have:
      --location "East US 2" \
      --branch "main" \
      --app-location "/" \
-     --output-location ".next"
+     --output-location "out"
    ```
 
 3. **Or use the Azure Portal**
@@ -54,10 +64,10 @@ Before setting up the deployment, ensure you have:
      - **Source**: GitHub
      - **Organization**: Your GitHub username/organization
      - **Repository**: `popyum-landing-page`
-     - **Branch**: `main` (or `master`)
+     - **Branch**: `main`
      - **Build Presets**: `Next.js`
      - **App location**: `/`
-     - **Output location**: `.next`
+     - **Output location**: `out`
 
 ### Step 2: Configure GitHub Repository Secret
 
@@ -79,139 +89,191 @@ Before setting up the deployment, ensure you have:
 Update your `next.config.ts` to ensure proper static export:
 
 ```typescript
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  // Enable static export for Azure Static Web Apps
   output: 'export',
+  
+  // Add trailing slash to URLs for better static hosting compatibility
   trailingSlash: true,
+  
+  // Disable image optimization for static export
   images: {
     unoptimized: true
-  }
-}
+  },
+};
 
-module.exports = nextConfig
+export default nextConfig;
 ```
 
 ### Step 4: Verify Deployment Configuration
 
-The workflow is configured with the following settings:
+The workflows are configured with the following settings:
 
-- **Triggers**: 
-  - Push to `main`/`master` branches
-  - Pull requests (for preview deployments)
+#### **Validation Pipeline** (`validate.yml`)
+- **Triggers**: Pull requests to `main` branch only
+- **Node.js version**: 20
+- **Jobs**: Code validation → Build test → Security check
+- **Purpose**: Ensure code quality before merging
+
+#### **Deployment Pipeline** (`deploy.yml`)
+- **Triggers**: Pushes to `main` branch only
 - **Node.js version**: 20
 - **Build command**: `npm run build`
-- **Output directory**: `.next`
+- **Output directory**: `out`
 - **App location**: `/` (root of repository)
+- **Purpose**: Deploy validated code to production
 
 ## 🔧 Workflow Jobs Breakdown
 
-### 1. Validate Job
-- **Purpose**: Code quality checks before deployment
+### Validation Pipeline Jobs
+
+#### 1. Code Quality & Validation
+- **Purpose**: Ensure code meets quality standards
 - **Steps**:
-  - Checkout code
-  - Setup Node.js with caching
-  - Install dependencies
-  - Run ESLint
+  - Checkout code with full history
+  - Setup Node.js with npm caching
+  - Install dependencies with `npm ci`
+  - Run ESLint for code quality
   - TypeScript type checking
   - Prettier formatting check (if configured)
 
-### 2. Build Job
-- **Purpose**: Compile and validate the application
-- **Dependencies**: Runs after `validate` job passes
+#### 2. Build Test
+- **Purpose**: Verify the application builds successfully
+- **Dependencies**: Runs after validation passes
 - **Steps**:
   - Checkout code
   - Setup Node.js
   - Install dependencies
-  - Build Next.js application
-  - Upload build artifacts for debugging
+  - Test build process
+  - Verify static export generation
 
-### 3. Deploy Job
+#### 3. Security & Dependency Check
+- **Purpose**: Check for security vulnerabilities and outdated packages
+- **Steps**:
+  - Checkout code
+  - Setup Node.js
+  - Install dependencies
+  - Run `npm audit` for security issues
+  - Check for outdated packages
+
+### Deployment Pipeline Jobs
+
+#### 1. Build and Deploy
 - **Purpose**: Deploy to Azure Static Web Apps
-- **Dependencies**: Runs after both `validate` and `build` jobs pass
-- **Conditions**: Only runs on pushes to main/master branch
+- **Conditions**: Only runs on `main` branch pushes
 - **Steps**:
   - Checkout code
   - Setup Node.js
   - Install dependencies
   - Build for production
-  - Deploy to Azure Static Web Apps
+  - Deploy to Azure Static Web Apps using official action
 
-### 4. Close PR Job
+#### 2. Close PR Deployment
 - **Purpose**: Clean up preview deployments
 - **Conditions**: Only runs when pull requests are closed
 - **Steps**:
-  - Close the associated preview deployment
+  - Close the associated preview deployment in Azure
 
-## 🎯 Testing the Pipeline
+## 🎯 Development Workflow
 
-1. **Commit and push changes**
-   ```bash
-   git add .
-   git commit -m "Add GitHub Actions deployment pipeline"
-   git push origin main
-   ```
+### 1. Feature Development
+```bash
+# Create feature branch
+git checkout -b feature/new-feature
 
-2. **Monitor the deployment**
-   - Go to your GitHub repository
-   - Navigate to **Actions** tab
-   - Watch the workflow execution
-   - Check each job's logs for any issues
+# Make changes and commit
+git add .
+git commit -m "Add new feature"
+git push origin feature/new-feature
+```
 
-3. **Verify deployment**
-   - Once complete, visit your Azure Static Web App URL
-   - Your site should be live and accessible
+### 2. Create Pull Request
+- Create PR from feature branch to `main`
+- **Validation pipeline automatically runs**:
+  - Code quality checks
+  - Build testing
+  - Security audit
+- Review and approve PR
+
+### 3. Merge to Production
+```bash
+# Merge PR to main (via GitHub UI)
+# Deployment pipeline automatically runs:
+# - Builds the application
+# - Deploys to Azure Static Web Apps
+```
 
 ## 🐛 Troubleshooting
 
 ### Common Issues
 
-1. **Build fails with TypeScript errors**
-   - Run `npm run lint` locally to fix issues
-   - Check `tsconfig.json` configuration
+1. **Validation pipeline fails with ESLint errors**
+   ```bash
+   # Fix locally before pushing
+   npm run lint:fix
+   ```
 
-2. **Azure deployment token invalid**
-   - Regenerate the token in Azure Portal
-   - Update the GitHub secret
+2. **TypeScript compilation errors**
+   ```bash
+   # Check types locally
+   npx tsc --noEmit
+   ```
 
-3. **Next.js build issues**
-   - Ensure `next.config.ts` is properly configured for static export
-   - Check for dynamic imports or server-side features that need adjustment
+3. **Build test fails**
+   ```bash
+   # Test build locally
+   npm run build
+   # Check if 'out' directory is generated
+   ls -la out/
+   ```
 
-4. **Preview deployments not working**
-   - Verify the workflow triggers include pull requests
-   - Check that the Azure Static Web App supports staging environments
+4. **Azure deployment token invalid**
+   - Regenerate token in Azure Portal: **Static Web App** → **Manage deployment token**
+   - Update GitHub secret: **Settings** → **Secrets and variables** → **Actions**
+
+5. **Deployment fails with output location error**
+   - Ensure Azure Static Web App is configured with `output_location: "out"`
+   - Verify `next.config.ts` has `output: 'export'`
 
 ### Useful Commands
 
 ```bash
-# Test build locally
-npm run build
+# Local development and testing
+npm run dev                 # Start development server
+npm run build              # Test production build
+npm run lint               # Check code quality
+npm run lint:fix           # Auto-fix linting issues
+npx tsc --noEmit          # TypeScript type checking
 
-# Test linting
-npm run lint
-
-# Fix linting issues
-npm run lint:fix
-
-# Type checking
-npx tsc --noEmit
+# Debugging build output
+ls -la out/               # Check static export files
+du -sh out/               # Check build size
 ```
 
-## 🔄 Updating the Pipeline
+## 🔄 Pipeline Monitoring
 
-To modify the deployment pipeline:
+### GitHub Actions
+- Navigate to your repository → **Actions** tab
+- Monitor workflow runs in real-time
+- Check individual job logs for debugging
 
-1. Edit `.github/workflows/deploy.yml`
-2. Test changes on a feature branch first
-3. Use pull requests to review changes
-4. Monitor deployments after merging
+### Azure Static Web Apps
+- Go to Azure Portal → Your Static Web App
+- Monitor deployments in **Functions** → **Deployment**
+- View live site metrics and logs
 
 ## 📚 Additional Resources
 
 - [Azure Static Web Apps Documentation](https://docs.microsoft.com/en-us/azure/static-web-apps/)
-- [Next.js Static Export Documentation](https://nextjs.org/docs/advanced-features/static-html-export)
+- [Next.js Static Export Documentation](https://nextjs.org/docs/app/building-your-application/deploying/static-exports)
 - [GitHub Actions Documentation](https://docs.github.com/en/actions)
 
 ---
 
-**Note**: This setup provides a production-ready CI/CD pipeline with proper validation, building, and deployment steps. The pipeline will automatically deploy your site whenever you push to the main branch, and create preview deployments for pull requests. 
+**✅ Success Criteria**: 
+- Validation pipeline passes on all PRs
+- Deployment pipeline successfully deploys to Azure on main branch merges
+- Live site is accessible and functional
+- No security vulnerabilities in dependencies 
