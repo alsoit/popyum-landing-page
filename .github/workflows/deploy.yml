@@ -2,10 +2,10 @@ name: Build and Deploy to Azure Static Web Apps
 
 on:
   push:
-    branches: [ main, master, feature/initial-commit ]
+    branches: [ main, master, feature/inital-commit ]
   pull_request:
     types: [opened, synchronize, reopened, closed]
-    branches: [ main, master, feature/initial-commit ]
+    branches: [ main, master, feature/inital-commit ]
 
 env:
   NODE_VERSION: '20'
@@ -96,7 +96,7 @@ jobs:
     name: 🚀 Deploy to Azure
     runs-on: ubuntu-latest
     needs: [validate, build]
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || github.ref == 'refs/heads/feature/inital-commit')
     
     steps:
       - name: 📥 Checkout code
