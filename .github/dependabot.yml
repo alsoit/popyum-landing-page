@@ -1,0 +1,67 @@
+version: 2
+updates:
+  # npm dependencies
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "UTC"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "alsoit"
+    assignees:
+      - "alsoit"
+    commit-message:
+      prefix: "deps"
+      prefix-development: "deps-dev"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "automated"
+    versioning-strategy: "increase"
+    # Group related updates
+    groups:
+      next-js:
+        patterns:
+          - "next*"
+          - "@next/*"
+      react:
+        patterns:
+          - "react*"
+          - "@types/react*"
+      eslint:
+        patterns:
+          - "eslint*"
+          - "@eslint/*"
+      tailwind:
+        patterns:
+          - "tailwindcss*"
+          - "@tailwindcss/*"
+      typescript:
+        patterns:
+          - "typescript*"
+          - "@types/*"
+    # Auto-merge patch and minor updates for development dependencies
+    enable-beta-ecosystems: true
+
+  # GitHub Actions dependencies
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "UTC"
+    open-pull-requests-limit: 3
+    reviewers:
+      - "alsoit"
+    assignees:
+      - "alsoit"
+    commit-message:
+      prefix: "ci"
+      include: "scope"
+    labels:
+      - "github-actions"
+      - "automated" 
