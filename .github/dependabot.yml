@@ -43,8 +43,6 @@ updates:
         patterns:
           - "typescript*"
           - "@types/*"
-    # Auto-merge patch and minor updates for development dependencies
-    enable-beta-ecosystems: true
 
   # GitHub Actions dependencies
   - package-ecosystem: "github-actions"
