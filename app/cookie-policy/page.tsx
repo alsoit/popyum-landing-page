@@ -76,7 +76,7 @@ export default function CookiePolicy() {
             <h2 className="text-2xl font-semibold mb-4">Policy Updates</h2>
             <p className="mb-4">
               Last updated: {new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}. 
-              We'll notify users of significant changes through site banners.
+              We&apos;ll notify users of significant changes through site banners.
             </p>
           </section>
 

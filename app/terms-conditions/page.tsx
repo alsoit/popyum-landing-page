@@ -22,9 +22,9 @@ export default function TermsConditions() {
           <section className="mb-12">
             <h2 className="text-2xl font-semibold mb-4">1. Welcome to Pop Yum!</h2>
             <p className="mb-4">
-              This website www.popyum.co.uk is owned and operated by Pop Yum Ltd. ("Pop Yum", "we", "us", or "our"). 
+              This website www.popyum.co.uk is owned and operated by Pop Yum Ltd. (&quot;Pop Yum&quot;, &quot;we&quot;, &quot;us&quot;, or &quot;our&quot;). 
               By using our website and placing an order, you agree to these Terms of Service and our <Link href="/privacy-policy" className="text-blue-600 hover:underline">Privacy Policy</Link>. 
-              If you disagree, please don't use our website. We reserve the right to update these terms at any time. 
+              If you disagree, please don&apos;t use our website. We reserve the right to update these terms at any time. 
               The latest version will be displayed on our website with the date it was last updated. By continuing to 
               use the site after any changes are posted, you agree to the new terms.
             </p>
@@ -70,7 +70,7 @@ export default function TermsConditions() {
             <h2 className="text-2xl font-semibold mb-4">6. Unlawful Use</h2>
             <p className="mb-4">
               This website is for lawful purposes only. Do not use it in any way that harms Pop Yum, other users, 
-              or the website's functionality.
+              or the website&apos;s functionality.
             </p>
           </section>
 
@@ -114,7 +114,7 @@ export default function TermsConditions() {
             <h2 className="text-2xl font-semibold mb-4">11. Payment</h2>
             <p className="mb-4">
               We accept all major credit and debit cards through Stripe for secure transactions. Payment is processed at checkout. 
-              The name and billing address must match the cardholder's information. You'll receive an order confirmation with 
+              The name and billing address must match the cardholder&apos;s information. You&apos;ll receive an order confirmation with 
               payment details. All transactions will be carried out in GBP. We accept the following credit/debit cards:
             </p>
             <ul className="list-disc pl-6 mb-4">
@@ -128,7 +128,7 @@ export default function TermsConditions() {
               All prices quoted include 20.00% VAT. Payment will be processed at the time of order. The name and billing address 
               given must be the same as the registered name and address of the cardholder. In accordance with the standing Consumer 
               Protection Distance Selling Regulations (2000) we will mail you details of your order and confirmation details of payment. 
-              This website operates on an 'invitation to treat' basis and not as an 'offer for sale' as a result, Pop Yum Foods Ltd. 
+              This website operates on an &apos;invitation to treat&apos; basis and not as an &apos;offer for sale&apos; as a result, Pop Yum Foods Ltd. 
               reserves the right to decline orders which cannot be fulfilled on the basis outlined in this document.
             </p>
           </section>
@@ -146,7 +146,7 @@ export default function TermsConditions() {
           <section className="mb-12">
             <h2 className="text-2xl font-semibold mb-4">13. Discounts</h2>
             <p className="mb-4">
-              To redeem a discount, enter the code at checkout. We cannot apply discounts if a valid code isn't entered. 
+              To redeem a discount, enter the code at checkout. We cannot apply discounts if a valid code isn&apos;t entered. 
               Discounts have specific terms and conditions, and only one code applies per order. Discounts may not apply to 
               sale items or bundle products.
             </p>
@@ -164,8 +164,8 @@ export default function TermsConditions() {
           <section className="mb-12">
             <h2 className="text-2xl font-semibold mb-4">15. Availability</h2>
             <p className="mb-4">
-              We strive to have all products in stock, but sometimes we run out. If we can't fulfil your order, we'll let you know 
-              ASAP and offer a full refund. During peak times, delivery may take a few extra days, but we'll notify you on the website.
+              We strive to have all products in stock, but sometimes we run out. If we can&apos;t fulfil your order, we&apos;ll let you know 
+              ASAP and offer a full refund. During peak times, delivery may take a few extra days, but we&apos;ll notify you on the website.
             </p>
           </section>
 
@@ -183,7 +183,7 @@ export default function TermsConditions() {
           <section className="mb-12">
             <h2 className="text-2xl font-semibold mb-4">17. Returns</h2>
             <p className="mb-4">
-              We want you to love Pop Yum! If you're not happy, you can return unopened and undamaged saleable products within 
+              We want you to love Pop Yum! If you&apos;re not happy, you can return unopened and undamaged saleable products within 
               30 days of purchase for a full refund or replacement. Return shipping is covered by you unless the product is 
               faulty, damaged, or incorrect. We may accept returns outside of 30 days at our discretion. Once the item is 
               returned and checked. Items are refunded within 30 days of receiving the undamaged saleable product. 

@@ -75,7 +75,7 @@ export default function PrivacyPolicy() {
             <ol className="list-decimal pl-6 mb-4">
               <li>Most information: We typically hold onto your personal details for 1 year after you stop using your account, or for as long as it takes to complete the reason we collected it (like processing an order).</li>
               <li>Sometimes a bit longer: In some cases, the law or other reasons (like preventing fraud) might require us to keep certain information for longer.</li>
-              <li>After that, it's anonymised: Once we don't need your information anymore, we anonymise it (meaning it can't be traced back to you) and might store it for things like reporting or improving our services.</li>
+              <li>After that, it&apos;s anonymised: Once we don&apos;t need your information anymore, we anonymise it (meaning it can&apos;t be traced back to you) and might store it for things like reporting or improving our services.</li>
             </ol>
           </section>
 
@@ -84,14 +84,14 @@ export default function PrivacyPolicy() {
             <h2 className="text-2xl font-semibold mb-4">Your rights</h2>
             <ul className="list-disc pl-6 mb-4">
               <li><strong>See what we have:</strong> Want to know what information we store about you? You can request a copy!</li>
-              <li><strong>Fix any mistakes:</strong> Spotted an error in your details? Let us know and we'll update it.</li>
+              <li><strong>Fix any mistakes:</strong> Spotted an error in your details? Let us know and we&apos;ll update it.</li>
               <li><strong>Make it disappear:</strong> No longer using our service? You can ask us to erase your information completely (in some cases).</li>
               <li><strong>Download your data:</strong> Want to take your information elsewhere? We can provide a copy in a format you can easily use.</li>
               <li><strong>Change your mind:</strong> Gave us permission to use your information? You can take it back anytime.</li>
-              <li><strong>Object or limit use:</strong> Don't like how we're using your information? You can ask us to stop or limit it.</li>
-              <li><strong>Complain if needed:</strong> Feel something's not right? You have the right to complain to a relevant authority.</li>
+              <li><strong>Object or limit use:</strong> Don&apos;t like how we&apos;re using your information? You can ask us to stop or limit it.</li>
+              <li><strong>Complain if needed:</strong> Feel something&apos;s not right? You have the right to complain to a relevant authority.</li>
             </ul>
-            <p className="mb-4">Remember, If you choose not to share some information, you might not be able to use all our features. To exercise any of these rights, simply email us at info@popyum.co.uk. We'll get back to you as soon as possible according to the law.</p>
+            <p className="mb-4">Remember, If you choose not to share some information, you might not be able to use all our features. To exercise any of these rights, simply email us at info@popyum.co.uk. We&apos;ll get back to you as soon as possible according to the law.</p>
           </section>
 
           {/* Cookies */}
@@ -110,7 +110,7 @@ export default function PrivacyPolicy() {
             <p className="mb-4">
               We use strong security measures to protect your information from getting lost, misused, or changed 
               without permission. Think of it like having a high-tech vault for your data. While we take security 
-              very seriously, it's important to remember that no system is foolproof. That's why we can't guarantee 
+              very seriously, it&apos;s important to remember that no system is foolproof. That&apos;s why we can&apos;t guarantee 
               the complete security of information traveling over the internet (like when you send us something online). 
               However, we do everything we can to keep your information safe.
             </p>
@@ -121,7 +121,7 @@ export default function PrivacyPolicy() {
             <h2 className="text-2xl font-semibold mb-4">Grievance/Data protection officer</h2>
             <p className="mb-4">
               If you have any inquiries or worries about how we handle your information, you can reach out to our friendly team. 
-              Just shoot an email to info@popyum.co.uk and we'll get back to you as soon as possible. Prefer to chat in person? 
+              Just shoot an email to info@popyum.co.uk and we&apos;ll get back to you as soon as possible. Prefer to chat in person? 
               You can also contact our Grievance Officer at:
             </p>
             <p className="mb-4">
@@ -131,7 +131,7 @@ export default function PrivacyPolicy() {
               NE8 1RB
             </p>
             <p className="mb-4">
-              We'll work hard to address your concerns and follow all the relevant laws and regulations.
+              We&apos;ll work hard to address your concerns and follow all the relevant laws and regulations.
             </p>
           </section>
         </div>

@@ -336,6 +336,7 @@ export default function Home() {
               <div className="absolute inset-0 opacity-100">
                 <img 
                   src="/images/grain-texture.png" 
+                  alt=""
                   className="w-full h-full object-cover opacity-100"
                 />
               </div>
@@ -351,6 +352,7 @@ export default function Home() {
               <div className="absolute inset-0 opacity-100">
                 <img 
                   src="/images/natural-texture.png" 
+                  alt=""
                   className="w-full h-full object-cover opacity-100"
                 />
               </div>
@@ -366,6 +368,7 @@ export default function Home() {
               <div className="absolute inset-0 opacity-100">
                 <img 
                   src="/images/calorie-texture.png" 
+                  alt=""
                   className="w-full h-full object-cover opacity-100"
                 />
               </div>
@@ -385,6 +388,7 @@ export default function Home() {
               <div className="absolute inset-0 opacity-100">
                 <img 
                   src="/images/vegan-texture.png" 
+                  alt=""
                   className="w-full h-full object-cover opacity-100"
                 />
               </div>
@@ -404,6 +408,7 @@ export default function Home() {
               <div className="absolute inset-0 opacity-100">
                 <img 
                   src="/images/grain-texture.png" 
+                  alt=""
                   className="w-full h-full object-cover opacity-100"
                 />
               </div>
@@ -419,6 +424,7 @@ export default function Home() {
               <div className="absolute inset-0 opacity-100">
                 <img 
                   src="/images/natural-texture.png" 
+                  alt=""
                   className="w-full h-full object-cover opacity-100"
                 />
               </div>
@@ -434,6 +440,7 @@ export default function Home() {
               <div className="absolute inset-0 opacity-100">
                 <img 
                   src="/images/calorie-texture.png" 
+                  alt=""
                   className="w-full h-full object-cover opacity-100"
                 />
               </div>
@@ -453,6 +460,7 @@ export default function Home() {
               <div className="absolute inset-0 opacity-100">
                 <img 
                   src="/images/vegan-texture.png" 
+                  alt=""
                   className="w-full h-full object-cover opacity-100"
                 />
               </div>
