@@ -2,10 +2,10 @@ name: Build and Deploy to Azure Static Web Apps
 
 on:
   push:
-    branches: [ main, master, 'feature/initial-commit' ]
+    branches: [ main, master, feature/initial-commit ]
   pull_request:
     types: [opened, synchronize, reopened, closed]
-    branches: [ main, master ]
+    branches: [ main, master, feature/initial-commit ]
 
 env:
   NODE_VERSION: '20'
