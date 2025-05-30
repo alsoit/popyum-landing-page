@@ -2,7 +2,7 @@ name: Build and Deploy to Azure Static Web Apps
 
 on:
   push:
-    branches: [ main, master, 'feature/deploy-to-azure' ]
+    branches: [ main, master, 'feature/initial-commit' ]
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches: [ main, master ]
