@@ -517,6 +517,13 @@ export default function Home() {
             <div>
               <h3 className="footer-section-title uppercase mb-6">POP ONTO OUR LIST</h3>
               <div className="space-y-4">
+                <p style={{ 
+                  fontFamily: 'Poppins, sans-serif', 
+                  fontWeight: '500',
+                  fontSize: '20px'
+                }}>
+                  By signing up you agree to our <Link href="/terms-conditions" className="underline hover:text-gray-700 transition-colors">Terms & Conditions</Link>
+                </p>
                 <form onSubmit={handleEmailSubmit} className="relative w-full max-w-[500px]">
                   <input 
                     type="email" 
@@ -546,7 +553,13 @@ export default function Home() {
                 {submitStatus && (
                   <div 
                     className={`text-sm mt-2 ${submitStatus.isError ? 'text-red-600' : 'text-black'}`}
-                    style={{ fontFamily: 'Poppins, sans-serif' }}
+                    style={{ 
+                      fontFamily: '"Contempora Sans", Impact, sans-serif',
+                      letterSpacing: '0.02em',
+                      fontWeight: 'normal',
+                      fontSize: '1.2rem',
+                      textTransform: 'uppercase'
+                    }}
                   >
                     {submitStatus.message}
                   </div>
