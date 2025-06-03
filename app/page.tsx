@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import PopupSignup from './components/PopupSignup';
 
 export default function Home() {
   const [typedText, setTypedText] = useState<string>('');
@@ -9,6 +10,7 @@ export default function Home() {
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<{message: string; isError: boolean} | null>(null);
+  const [showPopup, setShowPopup] = useState(false);
   const fullText = '';
   
   useEffect(() => {
@@ -21,7 +23,15 @@ export default function Home() {
       }
     }, 100);
     
-    return () => clearInterval(timer);
+    // Show popup after 3 seconds
+    const popupTimer = setTimeout(() => {
+      setShowPopup(true);
+    }, 3000);
+
+    return () => {
+      clearInterval(timer);
+      clearTimeout(popupTimer);
+    };
   }, []);
 
   const handleEmailSubmit = async (e: React.FormEvent) => {
@@ -68,8 +78,47 @@ export default function Home() {
     }
   };
 
+  const handlePopupSubmit = async (email: string) => {
+    try {
+      const formData = new URLSearchParams();
+      formData.append('cmd', 'frappe.website.doctype.web_form.web_form.accept');
+      formData.append('web_form', 'popyum-newsletter');
+      formData.append('for_payment', 'false');
+      formData.append('data', JSON.stringify({
+        email: email,
+        email_group: 'PopYum',
+        unsubscribed: 0,
+        doctype: 'Email Group Member',
+        web_form_name: 'popyum-newsletter'
+      }));
+
+      const response = await fetch('https://frappe.appsatile.com/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+          'Accept': 'application/json, text/javascript, */*; q=0.01',
+          'X-Requested-With': 'XMLHttpRequest',
+          'X-Frappe-CMD': 'frappe.website.doctype.web_form.web_form.accept'
+        },
+        body: formData
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to subscribe');
+      }
+    } catch (error) {
+      console.error('Popup subscription error:', error);
+      throw error; // Re-throw to handle in the popup component
+    }
+  };
+
   return (
     <main className="w-full overflow-x-hidden font-sans bg-white text-black">
+      <PopupSignup 
+        isOpen={showPopup} 
+        onClose={() => setShowPopup(false)}
+        onSubmit={handlePopupSubmit}
+      />
       {/* Header Navigation - keeps its existing styles */}
       <header className="header-nav py-4 md:py-6 px-4 md:px-6 flex items-center justify-between header-gradient relative min-h-[80px] md:min-h-[100px]">
         <button 
@@ -519,8 +568,7 @@ export default function Home() {
               <div className="space-y-4">
                 <p style={{ 
                   fontFamily: 'Poppins, sans-serif', 
-                  fontWeight: '500',
-                  fontSize: '20px'
+                  fontWeight: '500'
                 }}>
                   By signing up you agree to our <Link href="/terms-conditions" className="underline hover:text-gray-700 transition-colors">Terms & Conditions</Link>
                 </p>
@@ -552,13 +600,11 @@ export default function Home() {
                 </form>
                 {submitStatus && (
                   <div 
-                    className={`text-sm mt-2 ${submitStatus.isError ? 'text-red-600' : 'text-black'}`}
+                    className={`text-sm mt-2 ${submitStatus.isError ? 'text-black' : 'text-black'}`}
                     style={{ 
-                      fontFamily: '"Contempora Sans", Impact, sans-serif',
-                      letterSpacing: '0.02em',
+                      fontFamily: '"poppins", sans-serif',
                       fontWeight: 'normal',
-                      fontSize: '1.2rem',
-                      textTransform: 'uppercase'
+                      fontSize: '16px',
                     }}
                   >
                     {submitStatus.message}

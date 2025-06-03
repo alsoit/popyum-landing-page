@@ -238,3 +238,48 @@ body {
 .feature-box:nth-child(2) { animation-delay: 0.4s; }
 .feature-box:nth-child(3) { animation-delay: 0.6s; }
 .feature-box:nth-child(4) { animation-delay: 0.8s; }
+
+/* Add custom scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  background-color: #66E1D5;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #66E1D5;
+  border: none;
+}
+
+::-webkit-scrollbar-track:hover {
+  background-color: #66E1D5;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 20px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 1);
+}
+
+::-webkit-scrollbar-corner {
+  background-color: #66E1D5;
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.8) #66E1D5;
+}
+
+/* For Edge */
+@supports (-ms-overflow-style: none) {
+  * {
+    -ms-overflow-style: none;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.8) #66E1D5;
+  }
+}
