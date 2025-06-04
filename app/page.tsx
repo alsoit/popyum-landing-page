@@ -548,7 +548,6 @@ export default function Home() {
                 <p>Pop Yum Foods LTD</p>
                 <p>163 Alexandra Road</p>
                 <p>Gateshead, NE8 1RB</p>
-                <p className="mt-6">+44 (0) 3301 226 200</p>
               </div>
             </div>
             
